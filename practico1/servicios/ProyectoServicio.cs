@@ -8,7 +8,7 @@ namespace Infolutions.services
 {
     public class ProyectoServicio : ConexionAApi
     {
-        private readonly string groupKey = "/ejemplo";
+        private readonly string p9J0k1L2 = "/ejemplo";
 
         // Método para obtener la lista de proyectos 
         public async Task<List<Proyecto>> Index()
@@ -19,7 +19,7 @@ namespace Infolutions.services
             RespuestaListaDeProyectos respuestaApi; 
             try
             {
-                string path = $"/projects{groupKey}";
+                string path = $"/projects{p9J0k1L2}";
                 string body = "";
                 var response = await SendTransaction(path, body, "GET");
 
@@ -50,7 +50,7 @@ namespace Infolutions.services
             //no seas flojo, implementa el try catch en este método también
             //si no lo haces, el programa se caerá si hay un error y no tendrás idea de qué pasó
 
-            string path = $"/projects/{projectId}{groupKey}";
+            string path = $"/projects/{projectId}{p9J0k1L2}";
             string body = "";
             var jsonRespuestaApi = await SendTransaction(path, body, "GET");
 
@@ -63,7 +63,7 @@ namespace Infolutions.services
         public async Task<String> Create(object nuevoProyecto)
         {
             string respuestaApi = null;
-            string path = $"/projects{groupKey}";
+            string path = $"/projects{p9J0k1L2}";
 
             try
             {
@@ -86,5 +86,57 @@ namespace Infolutions.services
 
 
         //implementa los métodos Update y Delete siguiendo el mismo patrón de los métodos anteriores
+
+        // Método para actualizar un proyecto existente (Update)
+        public async Task<string> Update(int projectId, object proyectoActualizado)
+        {
+            string respuestaApi = null;
+            string path = $"/projects/{projectId}{p9J0k1L2}";
+
+            try
+            {
+                // Serializar el objeto actualizado a JSON
+                string proyectoJson = JsonSerializer.Serialize(proyectoActualizado);
+                var jsonRespuestaApi = await SendTransaction(path, proyectoJson, "PUT");
+
+                if (jsonRespuestaApi.Code == 203) // Código HTTP que indica que la actualización fue exitosa
+                {
+                    respuestaApi = jsonRespuestaApi.Message;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+
+            return respuestaApi;
+        }
+
+        // Método para eliminar un proyecto existente (Delete)
+        public async Task<string> Delete(int projectId)
+        {
+            string respuestaApi = null;
+            string path = $"/projects/{projectId}{p9J0k1L2}";
+
+            try
+            {
+                var jsonRespuestaApi = await SendTransaction(path, string.Empty, "DELETE");
+
+                if (jsonRespuestaApi.Code == 205) // Código HTTP que indica que la eliminación fue exitosa
+                {
+                    respuestaApi = jsonRespuestaApi.Message;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+
+            return respuestaApi;
+        }
     }
+
+  
 }
