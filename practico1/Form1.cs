@@ -11,5 +11,10 @@ namespace practico1
         {
 
         }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
