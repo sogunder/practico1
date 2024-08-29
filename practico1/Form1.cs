@@ -25,7 +25,7 @@ namespace practico1
             // Lógica para manejar el evento del cambio de estado del RadioButton
         }
 
-        private async void btnAgregar_Click(object sender, EventArgs e)
+        private async void btnAgregarP_Click(object sender, EventArgs e)
         {
             // Validar los campos de entrada
             if (string.IsNullOrEmpty(textBoxNombre.Text) || string.IsNullOrEmpty(textBoxDescripcion.Text))
@@ -95,5 +95,53 @@ namespace practico1
                 MessageBox.Show($"Error al cargar los proyectos: {ex.Message}");
             }
         }
+
+
+        //BOTON ELIMINAR----------------------------------------------------------------------------------------
+
+        private async void BtnEliminar_Click(object sender, EventArgs e)
+        {
+            // Verificar si hay un proyecto seleccionado
+            if (tablaProyectos.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione un proyecto para eliminar.");
+                return;
+            }
+
+            // Obtener el proyecto seleccionado del DataGridView
+            Proyecto proyectoSeleccionado = (Proyecto)tablaProyectos.SelectedRows[0].DataBoundItem;
+
+            // Confirmar la eliminación
+            var confirmResult = MessageBox.Show(
+                "¿Está seguro de que desea eliminar el proyecto seleccionado?",
+                "Confirmar Eliminación",
+                MessageBoxButtons.YesNo);
+
+            if (confirmResult == DialogResult.Yes)
+            {
+                try
+                {
+                    // Llamar al método Delete de ProyectoServicio para eliminar el proyecto
+                    string resultado = await proyectoServicio.Delete(proyectoSeleccionado.Id);
+                     
+                    if (!string.IsNullOrEmpty(resultado))
+                    {
+                        MessageBox.Show("Proyecto eliminado exitosamente.");
+
+                        // Volver a cargar los proyectos para reflejar la eliminación en el DataGridView
+                        CargarProyectos();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Hubo un error al intentar eliminar el proyecto.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al eliminar el proyecto: {ex.Message}");
+                }
+            }
+        }
+
     }
 }
