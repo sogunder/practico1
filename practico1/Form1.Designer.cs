@@ -32,7 +32,7 @@
             tablaProyectos = new DataGridView();
             btnGuardar = new Button();
             btnEliminar = new Button();
-            btnAgregar = new Button();
+            btnEditarProyecto = new Button();
             dateTimeCreacion = new DateTimePicker();
             label6 = new Label();
             numericHorasTotales = new NumericUpDown();
@@ -45,6 +45,7 @@
             label2 = new Label();
             label1 = new Label();
             panel2 = new Panel();
+            btnEditar = new Button();
             btnIngresarTarea = new Button();
             dataGridView1 = new DataGridView();
             label11 = new Label();
@@ -63,7 +64,6 @@
             Pendiente = new RadioButton();
             label8 = new Label();
             label7 = new Label();
-            btnEditar = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)tablaProyectos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericHorasTotales).BeginInit();
@@ -79,7 +79,7 @@
             panel1.Controls.Add(tablaProyectos);
             panel1.Controls.Add(btnGuardar);
             panel1.Controls.Add(btnEliminar);
-            panel1.Controls.Add(btnAgregar);
+            panel1.Controls.Add(btnEditarProyecto);
             panel1.Controls.Add(dateTimeCreacion);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(numericHorasTotales);
@@ -125,15 +125,15 @@
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = true;
             // 
-            // btnAgregar
+            // btnEditarProyecto
             // 
-            btnAgregar.Location = new Point(34, 277);
-            btnAgregar.Name = "btnAgregar";
-            btnAgregar.Size = new Size(94, 29);
-            btnAgregar.TabIndex = 12;
-            btnAgregar.Text = "Agregar";
-            btnAgregar.UseVisualStyleBackColor = true;
-            btnAgregar.Click += btnAgregar_Click;
+            btnEditarProyecto.Location = new Point(34, 277);
+            btnEditarProyecto.Name = "btnEditarProyecto";
+            btnEditarProyecto.Size = new Size(94, 29);
+            btnEditarProyecto.TabIndex = 12;
+            btnEditarProyecto.Text = "Editar";
+            btnEditarProyecto.UseVisualStyleBackColor = true;
+            btnEditarProyecto.Click += btnAgregar_Click;
             // 
             // dateTimeCreacion
             // 
@@ -245,6 +245,15 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(1063, 391);
             panel2.TabIndex = 1;
+            // 
+            // btnEditar
+            // 
+            btnEditar.Location = new Point(189, 341);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(94, 29);
+            btnEditar.TabIndex = 18;
+            btnEditar.Text = "Editar";
+            btnEditar.UseVisualStyleBackColor = true;
             // 
             // btnIngresarTarea
             // 
@@ -421,20 +430,11 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(328, 17);
+            label7.Location = new Point(353, 18);
             label7.Name = "label7";
             label7.Size = new Size(125, 20);
             label7.TabIndex = 0;
             label7.Text = "Gestión de Tareas";
-            // 
-            // btnEditar
-            // 
-            btnEditar.Location = new Point(189, 341);
-            btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(94, 29);
-            btnEditar.TabIndex = 18;
-            btnEditar.Text = "Editar";
-            btnEditar.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -476,7 +476,7 @@
         private Label label5;
         private Button btnGuardar;
         private Button btnEliminar;
-        private Button btnAgregar;
+        private Button btnEditarProyecto;
         private Panel panel2;
         private Label label7;
         private GroupBox groupBoxActivo;
