@@ -1,4 +1,5 @@
 ﻿using Infolutions.modelos;
+using practico1.modelo;
 using practico1.modelos;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
@@ -41,4 +42,18 @@ namespace Infolutions.http
     public class RespuestaUsuario : RespuestaBase<Usuario>
     {
     }
+
+    // Nuevas clases de respuesta para Tareas
+    public class RespuestaListaDeTareas : RespuestaBase<List<Tarea>>
+    {
+    }
+
+    public class RespuestaTarea : RespuestaBase<Tarea>
+    {
+    }
+
+    public class RespuestaCreacionTarea : RespuestaBase<Tarea>
+    {
+    }
 }
+
