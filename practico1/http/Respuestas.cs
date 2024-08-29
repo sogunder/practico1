@@ -1,10 +1,7 @@
 ﻿using Infolutions.modelos;
-using System;
+using practico1.modelos;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Infolutions.http
 {
@@ -33,6 +30,15 @@ namespace Infolutions.http
     }
 
     public class RespuestaCreacionProyecto : RespuestaBase<Proyecto>
+    {
+    }
+
+    // Nuevas clases de respuesta para Usuarios
+    public class RespuestaListaDeUsuarios : RespuestaBase<List<Usuario>>
+    {
+    }
+
+    public class RespuestaUsuario : RespuestaBase<Usuario>
     {
     }
 }

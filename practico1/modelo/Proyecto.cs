@@ -30,4 +30,5 @@ namespace Infolutions.modelos
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
     }
+
 }
