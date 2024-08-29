@@ -57,7 +57,7 @@ namespace practico1
                     // Volver a cargar los proyectos para reflejar el nuevo en el DataGridView
                     CargarProyectos();
                 }
-                else
+                else 
                 {
                     MessageBox.Show("Hubo un error al intentar agregar el proyecto.");
                 }
