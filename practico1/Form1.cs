@@ -57,7 +57,7 @@ namespace practico1
                     // Volver a cargar los proyectos para reflejar el nuevo en el DataGridView
                     CargarProyectos();
                 }
-                else 
+                else
                 {
                     MessageBox.Show("Hubo un error al intentar agregar el proyecto.");
                 }
@@ -67,7 +67,6 @@ namespace practico1
                 MessageBox.Show($"Error al agregar el proyecto: {ex.Message}");
             }
         }
-
 
         // Función para cargar proyectos en el BindingSource y actualizar el DataGridView
         private async void CargarProyectos()
@@ -96,52 +95,43 @@ namespace practico1
             }
         }
 
-
         //BOTON ELIMINAR----------------------------------------------------------------------------------------
 
-        private async void BtnEliminar_Click(object sender, EventArgs e)
+        private async void btnEliminar_Click(object sender, EventArgs e)
         {
-            // Verificar si hay un proyecto seleccionado
-            if (tablaProyectos.SelectedRows.Count == 0)
+            // Asegurarse de que hay una fila seleccionada
+            if (tablaProyectos.SelectedRows.Count > 0)
             {
-                MessageBox.Show("Seleccione un proyecto para eliminar.");
-                return;
-            }
+                // Obtener el proyecto seleccionado
+                var selectedRow = tablaProyectos.SelectedRows[0];
+                var proyecto = (Proyecto)selectedRow.DataBoundItem;
 
-            // Obtener el proyecto seleccionado del DataGridView
-            Proyecto proyectoSeleccionado = (Proyecto)tablaProyectos.SelectedRows[0].DataBoundItem;
+                // Confirmar la eliminación
+                var confirmResult = MessageBox.Show("¿Estás seguro de que deseas eliminar este proyecto?",
+                                                     "Confirmar Eliminación",
+                                                     MessageBoxButtons.YesNo);
 
-            // Confirmar la eliminación
-            var confirmResult = MessageBox.Show(
-                "¿Está seguro de que desea eliminar el proyecto seleccionado?",
-                "Confirmar Eliminación",
-                MessageBoxButtons.YesNo);
-
-            if (confirmResult == DialogResult.Yes)
-            {
-                try
+                if (confirmResult == DialogResult.Yes)
                 {
-                    // Llamar al método Delete de ProyectoServicio para eliminar el proyecto
-                    string resultado = await proyectoServicio.Delete(proyectoSeleccionado.Id);
-                     
-                    if (!string.IsNullOrEmpty(resultado))
+                    try
                     {
-                        MessageBox.Show("Proyecto eliminado exitosamente.");
+                        // Llamar al método Delete del servicio
+                        string resultado = await proyectoServicio.Delete(proyecto.Id);
+                        MessageBox.Show(resultado, "Resultado de Eliminación", MessageBoxButtons.OK);
 
                         // Volver a cargar los proyectos para reflejar la eliminación en el DataGridView
                         CargarProyectos();
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        MessageBox.Show("Hubo un error al intentar eliminar el proyecto.");
+                        MessageBox.Show($"Error al eliminar el proyecto: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error al eliminar el proyecto: {ex.Message}");
-                }
+            }
+            else
+            {
+                MessageBox.Show("Selecciona un proyecto para eliminar.", "Ningún Proyecto Seleccionado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
     }
 }
