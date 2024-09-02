@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            txtId = new TextBox();
             tablaProyectos = new DataGridView();
             btnEditarProyecto = new Button();
             btnEliminar = new Button();
@@ -64,6 +65,7 @@
             Pendiente = new RadioButton();
             label8 = new Label();
             label7 = new Label();
+            btnCargarInput = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)tablaProyectos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericHorasTotales).BeginInit();
@@ -76,6 +78,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnCargarInput);
+            panel1.Controls.Add(txtId);
             panel1.Controls.Add(tablaProyectos);
             panel1.Controls.Add(btnEditarProyecto);
             panel1.Controls.Add(btnEliminar);
@@ -97,6 +101,14 @@
             panel1.Size = new Size(928, 244);
             panel1.TabIndex = 0;
             // 
+            // txtId
+            // 
+            txtId.Enabled = false;
+            txtId.Location = new Point(258, 32);
+            txtId.Name = "txtId";
+            txtId.Size = new Size(33, 23);
+            txtId.TabIndex = 16;
+            // 
             // tablaProyectos
             // 
             tablaProyectos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -104,6 +116,7 @@
             tablaProyectos.Name = "tablaProyectos";
             tablaProyectos.RowHeadersWidth = 51;
             tablaProyectos.RowTemplate.Height = 25;
+            tablaProyectos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             tablaProyectos.Size = new Size(578, 196);
             tablaProyectos.TabIndex = 15;
             // 
@@ -116,6 +129,7 @@
             btnEditarProyecto.TabIndex = 14;
             btnEditarProyecto.Text = "Editar";
             btnEditarProyecto.UseVisualStyleBackColor = true;
+            btnEditarProyecto.Click += btnEditarProyecto_Click;
             // 
             // btnEliminar
             // 
@@ -442,6 +456,16 @@
             label7.TabIndex = 0;
             label7.Text = "Gestión de Tareas";
             // 
+            // btnCargarInput
+            // 
+            btnCargarInput.Location = new Point(235, 134);
+            btnCargarInput.Name = "btnCargarInput";
+            btnCargarInput.Size = new Size(75, 23);
+            btnCargarInput.TabIndex = 17;
+            btnCargarInput.Text = "CargarDatos";
+            btnCargarInput.UseVisualStyleBackColor = true;
+            btnCargarInput.Click += btnCargarInput_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -505,5 +529,7 @@
         private Label label11;
         private DataGridView tablaProyectos;
         private Button btnEditar;
+        private TextBox txtId;
+        private Button btnCargarInput;
     }
 }

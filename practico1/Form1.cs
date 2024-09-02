@@ -18,7 +18,11 @@ namespace practico1
             bindingSourceProyectos = new BindingSource(); // Inicializar el BindingSource
             tablaProyectos.DataSource = bindingSourceProyectos; // Enlazar el DataGridView con el BindingSource
             CargarProyectos(); // Llamar a la función para cargar proyectos al iniciar el formulario
+
+            // Asociar el evento de clic para el botón de editar
+
         }
+
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -132,6 +136,74 @@ namespace practico1
             {
                 MessageBox.Show("Selecciona un proyecto para eliminar.", "Ningún Proyecto Seleccionado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        //BOTON EDITAR-----------------------------------------------------------------------------------------------------------------------------
+
+        private async void btnEditarProyecto_Click(object sender, EventArgs e)
+        {
+            // Validar los campos de entrada
+            if (string.IsNullOrEmpty(textBoxNombre.Text) || string.IsNullOrEmpty(textBoxDescripcion.Text))
+            {
+                MessageBox.Show("Por favor, complete todos los campos requeridos.");
+                return; 
+            }
+
+            try
+            {
+                // Crear un objeto Proyecto con los datos de los controles
+                Proyecto proyectoEditado = new Proyecto
+                {
+                    Id = int.Parse(txtId.Text), // Asumiendo que tienes un campo txtId
+                    Name = textBoxNombre.Text,
+                    Description = textBoxDescripcion.Text,
+                    Status = comboBoxEstado.SelectedItem?.ToString() ?? "Pendiente",
+                    WorkerHours = numericHoras.Value.ToString(),
+                    TotalHours = numericHorasTotales.Value.ToString(),
+                    CreatedAt = dateTimeCreacion.Value
+                };
+
+                // Llamar al método Update para actualizar el proyecto a través de la API
+                string resultado = await proyectoServicio.Update(proyectoEditado.Id, proyectoEditado);
+
+                if (!string.IsNullOrEmpty(resultado))
+                {
+                    MessageBox.Show("Proyecto actualizado exitosamente.");
+
+                    // Volver a cargar los proyectos para reflejar la actualización en el DataGridView
+                    CargarProyectos();
+                }
+                else
+                {
+                    MessageBox.Show("Hubo un error al intentar actualizar el proyecto.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al actualizar el proyecto: {ex.Message}");
+            }
+        }
+
+        private void btnCargarInput_Click(object sender, EventArgs e)
+        {
+            // Verificar si hay una fila seleccionada
+            if (tablaProyectos.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione un proyecto para editar.");
+                return;
+            }
+
+            // Obtener el proyecto seleccionado del DataGridView
+            Proyecto proyectoSeleccionado = (Proyecto)tablaProyectos.SelectedRows[0].DataBoundItem;
+
+            // Rellenar los controles con los datos del proyecto seleccionado para permitir la edición
+            txtId.Text = proyectoSeleccionado.Id.ToString(); // Asumiendo que tienes un campo txtId
+            textBoxNombre.Text = proyectoSeleccionado.Name;
+            textBoxDescripcion.Text = proyectoSeleccionado.Description;
+            comboBoxEstado.SelectedItem = proyectoSeleccionado.Status;
+            numericHoras.Value = decimal.Parse(proyectoSeleccionado.WorkerHours);
+            numericHorasTotales.Value = decimal.Parse(proyectoSeleccionado.TotalHours);
+            dateTimeCreacion.Value = proyectoSeleccionado.CreatedAt;
         }
     }
 }
