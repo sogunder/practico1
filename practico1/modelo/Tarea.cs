@@ -8,31 +8,25 @@ namespace practico1.modelo
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonPropertyName("titulo")]
-        public string Titulo { get; set; }
-
-        [JsonPropertyName("descripcion")]
+        [JsonPropertyName("description")]
         public string Descripcion { get; set; }
 
-        [JsonPropertyName("estado")]
+        [JsonPropertyName("area")]
+        public string Area { get; set; } // Esta propiedad debería reflejar correctamente la estructura esperada por la API
+
+        [JsonPropertyName("status")]
         public string Estado { get; set; }
 
-        [JsonPropertyName("fecha_creacion")]
+        [JsonPropertyName("start_date")]
         public DateTime FechaCreacion { get; set; }
 
-        [JsonPropertyName("fecha_vencimiento")]
+        [JsonPropertyName("end_date")]
         public DateTime FechaVencimiento { get; set; }
 
-        [JsonPropertyName("proyecto_id")]
+        [JsonPropertyName("project_id")]
         public int ProyectoId { get; set; }
 
-        [JsonPropertyName("horas_estimadas")]
-        public int HorasEstimadas { get; set; }
-
-        [JsonPropertyName("horas_trabajadas")]
-        public int HorasTrabajadas { get; set; }
-
-        [JsonPropertyName("responsable")]
+        [JsonPropertyName("user_id")]
         public string Responsable { get; set; }
     }
 }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            btnCargarInput = new Button();
             txtId = new TextBox();
             tablaProyectos = new DataGridView();
             btnEditarProyecto = new Button();
@@ -47,17 +48,17 @@
             label1 = new Label();
             panel2 = new Panel();
             btnEditar = new Button();
-            btnIngresarTarea = new Button();
-            dataGridView1 = new DataGridView();
+            btnIngresarTareas = new Button();
+            tablaTareas = new DataGridView();
             label11 = new Label();
-            numericHoras = new NumericUpDown();
+            numericHorasEstimadas = new NumericUpDown();
             label10 = new Label();
             textBox1 = new TextBox();
             textBoxEmpleado = new TextBox();
             label9 = new Label();
             groupBox1 = new GroupBox();
-            activo = new RadioButton();
-            noActivo = new RadioButton();
+            Hardware = new RadioButton();
+            Redes = new RadioButton();
             dateTimePicker1 = new DateTimePicker();
             groupBoxActivo = new GroupBox();
             Progreso = new RadioButton();
@@ -65,13 +66,12 @@
             Pendiente = new RadioButton();
             label8 = new Label();
             label7 = new Label();
-            btnCargarInput = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)tablaProyectos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericHorasTotales).BeginInit();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericHoras).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)tablaTareas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericHorasEstimadas).BeginInit();
             groupBox1.SuspendLayout();
             groupBoxActivo.SuspendLayout();
             SuspendLayout();
@@ -100,6 +100,16 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(928, 244);
             panel1.TabIndex = 0;
+            // 
+            // btnCargarInput
+            // 
+            btnCargarInput.Location = new Point(235, 134);
+            btnCargarInput.Name = "btnCargarInput";
+            btnCargarInput.Size = new Size(75, 23);
+            btnCargarInput.TabIndex = 17;
+            btnCargarInput.Text = "CargarDatos";
+            btnCargarInput.UseVisualStyleBackColor = true;
+            btnCargarInput.Click += btnCargarInput_Click;
             // 
             // txtId
             // 
@@ -251,10 +261,10 @@
             // panel2
             // 
             panel2.Controls.Add(btnEditar);
-            panel2.Controls.Add(btnIngresarTarea);
-            panel2.Controls.Add(dataGridView1);
+            panel2.Controls.Add(btnIngresarTareas);
+            panel2.Controls.Add(tablaTareas);
             panel2.Controls.Add(label11);
-            panel2.Controls.Add(numericHoras);
+            panel2.Controls.Add(numericHorasEstimadas);
             panel2.Controls.Add(label10);
             panel2.Controls.Add(textBox1);
             panel2.Controls.Add(textBoxEmpleado);
@@ -280,25 +290,26 @@
             btnEditar.Text = "Editar";
             btnEditar.UseVisualStyleBackColor = true;
             // 
-            // btnIngresarTarea
+            // btnIngresarTareas
             // 
-            btnIngresarTarea.Location = new Point(56, 256);
-            btnIngresarTarea.Margin = new Padding(3, 2, 3, 2);
-            btnIngresarTarea.Name = "btnIngresarTarea";
-            btnIngresarTarea.Size = new Size(82, 22);
-            btnIngresarTarea.TabIndex = 17;
-            btnIngresarTarea.Text = "Ingresar ";
-            btnIngresarTarea.UseVisualStyleBackColor = true;
+            btnIngresarTareas.Location = new Point(56, 256);
+            btnIngresarTareas.Margin = new Padding(3, 2, 3, 2);
+            btnIngresarTareas.Name = "btnIngresarTareas";
+            btnIngresarTareas.Size = new Size(82, 22);
+            btnIngresarTareas.TabIndex = 17;
+            btnIngresarTareas.Text = "Ingresar ";
+            btnIngresarTareas.UseVisualStyleBackColor = true;
+            btnIngresarTareas.Click += btnIngresarTareas_Click_1;
             // 
-            // dataGridView1
+            // tablaTareas
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(327, 46);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(578, 232);
-            dataGridView1.TabIndex = 16;
+            tablaTareas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tablaTareas.Location = new Point(327, 46);
+            tablaTareas.Name = "tablaTareas";
+            tablaTareas.RowHeadersWidth = 51;
+            tablaTareas.RowTemplate.Height = 25;
+            tablaTareas.Size = new Size(578, 232);
+            tablaTareas.TabIndex = 16;
             // 
             // label11
             // 
@@ -309,13 +320,13 @@
             label11.TabIndex = 14;
             label11.Text = "Horas:";
             // 
-            // numericHoras
+            // numericHorasEstimadas
             // 
-            numericHoras.Location = new Point(152, 222);
-            numericHoras.Margin = new Padding(3, 2, 3, 2);
-            numericHoras.Name = "numericHoras";
-            numericHoras.Size = new Size(76, 23);
-            numericHoras.TabIndex = 13;
+            numericHorasEstimadas.Location = new Point(152, 222);
+            numericHorasEstimadas.Margin = new Padding(3, 2, 3, 2);
+            numericHorasEstimadas.Name = "numericHorasEstimadas";
+            numericHorasEstimadas.Size = new Size(76, 23);
+            numericHorasEstimadas.TabIndex = 13;
             // 
             // label10
             // 
@@ -353,8 +364,8 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(activo);
-            groupBox1.Controls.Add(noActivo);
+            groupBox1.Controls.Add(Hardware);
+            groupBox1.Controls.Add(Redes);
             groupBox1.Location = new Point(150, 69);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(116, 81);
@@ -362,27 +373,27 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Area";
             // 
-            // activo
+            // Hardware
             // 
-            activo.AutoSize = true;
-            activo.Location = new Point(14, 22);
-            activo.Name = "activo";
-            activo.Size = new Size(76, 19);
-            activo.TabIndex = 3;
-            activo.TabStop = true;
-            activo.Text = "Hardware";
-            activo.UseVisualStyleBackColor = true;
+            Hardware.AutoSize = true;
+            Hardware.Location = new Point(14, 22);
+            Hardware.Name = "Hardware";
+            Hardware.Size = new Size(76, 19);
+            Hardware.TabIndex = 3;
+            Hardware.TabStop = true;
+            Hardware.Text = "Hardware";
+            Hardware.UseVisualStyleBackColor = true;
             // 
-            // noActivo
+            // Redes
             // 
-            noActivo.AutoSize = true;
-            noActivo.Location = new Point(14, 40);
-            noActivo.Name = "noActivo";
-            noActivo.Size = new Size(56, 19);
-            noActivo.TabIndex = 3;
-            noActivo.TabStop = true;
-            noActivo.Text = "Redes";
-            noActivo.UseVisualStyleBackColor = true;
+            Redes.AutoSize = true;
+            Redes.Location = new Point(14, 40);
+            Redes.Name = "Redes";
+            Redes.Size = new Size(56, 19);
+            Redes.TabIndex = 3;
+            Redes.TabStop = true;
+            Redes.Text = "Redes";
+            Redes.UseVisualStyleBackColor = true;
             // 
             // dateTimePicker1
             // 
@@ -456,16 +467,6 @@
             label7.TabIndex = 0;
             label7.Text = "Gestión de Tareas";
             // 
-            // btnCargarInput
-            // 
-            btnCargarInput.Location = new Point(235, 134);
-            btnCargarInput.Name = "btnCargarInput";
-            btnCargarInput.Size = new Size(75, 23);
-            btnCargarInput.TabIndex = 17;
-            btnCargarInput.Text = "CargarDatos";
-            btnCargarInput.UseVisualStyleBackColor = true;
-            btnCargarInput.Click += btnCargarInput_Click;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -482,8 +483,8 @@
             ((System.ComponentModel.ISupportInitialize)numericHorasTotales).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericHoras).EndInit();
+            ((System.ComponentModel.ISupportInitialize)tablaTareas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericHorasEstimadas).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBoxActivo.ResumeLayout(false);
@@ -520,12 +521,12 @@
         private TextBox textBoxEmpleado;
         private Label label9;
         private GroupBox groupBox1;
-        private RadioButton activo;
-        private RadioButton noActivo;
+        private RadioButton Hardware;
+        private RadioButton Redes;
         private DateTimePicker dateTimePicker1;
-        private NumericUpDown numericHoras;
-        private Button btnIngresarTarea;
-        private DataGridView dataGridView1;
+        private NumericUpDown numericHorasEstimadas;
+        private Button btnIngresarTareas;
+        private DataGridView tablaTareas;
         private Label label11;
         private DataGridView tablaProyectos;
         private Button btnEditar;

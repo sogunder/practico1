@@ -3,23 +3,33 @@ using Infolutions.modelos;  // Referencia al modelo Proyecto
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using practico1.modelo;
+using practico1.servicios;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace practico1
 {
     public partial class Form1 : Form
     {
         private ProyectoServicio proyectoServicio;
-        private BindingSource bindingSourceProyectos; // Declaración del BindingSource
+        private BindingSource bindingSourceProyectos;
+        private TareaServicio tareaServicio;
+        private BindingSource bindingSourceTareas;
+        // Declaración del BindingSource
+
 
         public Form1()
         {
             InitializeComponent();
             proyectoServicio = new ProyectoServicio(); // Inicializar la instancia de ProyectoServicio
             bindingSourceProyectos = new BindingSource(); // Inicializar el BindingSource
-            tablaProyectos.DataSource = bindingSourceProyectos; // Enlazar el DataGridView con el BindingSource
-            CargarProyectos(); // Llamar a la función para cargar proyectos al iniciar el formulario
+            tareaServicio = new TareaServicio(); // Inicializa el servicio de tarea
+            bindingSourceTareas = new BindingSource(); // Inicializa el BindingSource para tareas
+            tablaProyectos.DataSource = bindingSourceProyectos;
+            tablaTareas.DataSource = bindingSourceTareas;
 
-            // Asociar el evento de clic para el botón de editar
+            CargarProyectos();
+            CargarTareas();// Llamar a la función para cargar proyectos al iniciar el formulario
 
         }
 
@@ -46,7 +56,7 @@ namespace practico1
                     Name = textBoxNombre.Text,
                     Description = textBoxDescripcion.Text,
                     Status = comboBoxEstado.SelectedItem?.ToString() ?? "Pendiente", // Asumimos que la opción por defecto es "Pendiente"
-                    WorkerHours = numericHoras.Value.ToString(),
+                    WorkerHours = numericHorasEstimadas.Value.ToString(),
                     TotalHours = numericHorasTotales.Value.ToString(),
                     CreatedAt = dateTimeCreacion.Value
                 };
@@ -146,7 +156,7 @@ namespace practico1
             if (string.IsNullOrEmpty(textBoxNombre.Text) || string.IsNullOrEmpty(textBoxDescripcion.Text))
             {
                 MessageBox.Show("Por favor, complete todos los campos requeridos.");
-                return; 
+                return;
             }
 
             try
@@ -158,7 +168,7 @@ namespace practico1
                     Name = textBoxNombre.Text,
                     Description = textBoxDescripcion.Text,
                     Status = comboBoxEstado.SelectedItem?.ToString() ?? "Pendiente",
-                    WorkerHours = numericHoras.Value.ToString(),
+                    WorkerHours = numericHorasEstimadas.Value.ToString(),
                     TotalHours = numericHorasTotales.Value.ToString(),
                     CreatedAt = dateTimeCreacion.Value
                 };
@@ -201,9 +211,131 @@ namespace practico1
             textBoxNombre.Text = proyectoSeleccionado.Name;
             textBoxDescripcion.Text = proyectoSeleccionado.Description;
             comboBoxEstado.SelectedItem = proyectoSeleccionado.Status;
-            numericHoras.Value = decimal.Parse(proyectoSeleccionado.WorkerHours);
+            numericHorasEstimadas.Value = decimal.Parse(proyectoSeleccionado.WorkerHours);
             numericHorasTotales.Value = decimal.Parse(proyectoSeleccionado.TotalHours);
             dateTimeCreacion.Value = proyectoSeleccionado.CreatedAt;
         }
+
+
+        // ----------------------------------- Gestion de Tareas -----------------------------------
+
+        // Método para agregar una tarea a un proyecto
+
+        private string ObtenerEstadoTarea()
+        {
+            if (Finalizado.Checked)
+            {
+                return "Finalizado";
+            }
+            else if (Pendiente.Checked)
+            {
+                return "Pendiente";
+            }
+            else if (Progreso.Checked)
+            {
+                return "En Progreso";
+            }
+            else
+            {
+                return "Pendiente";
+            }
+        }
+
+        private string ObtenerAreaTarea()
+        {
+            if (Hardware.Checked)
+            {
+                return "Hardware";
+            }
+            else if (Redes.Checked)
+            {
+                return "Redes";
+            }
+            else
+            {
+                return "No especificado"; // Valor predeterminado si ningún RadioButton está seleccionado
+            }
+        }
+
+        private async void CargarTareas()
+        {
+            try
+            {
+                // Verificar que tengas una instancia de TareaServicio
+                List<Tarea> listaDeTareas = await tareaServicio.Index();
+
+                // Validar si listaDeTareas es null
+                if (listaDeTareas == null)
+                {
+                    MessageBox.Show("No se pudieron cargar las tareas. La lista es nula.");
+                    return;
+                }
+
+                // Verificar si la lista está vacía
+                if (listaDeTareas.Count == 0)
+                {
+                    MessageBox.Show("La lista de tareas está vacía.");
+                }
+
+                // Mostrar la cantidad de tareas cargadas
+                MessageBox.Show($"Se cargaron {listaDeTareas.Count} tareas.");
+
+                // Asignar la lista de tareas al BindingSource
+                bindingSourceTareas.DataSource = listaDeTareas;
+
+                // Refrescar el DataGridView para mostrar los nuevos datos
+                tablaTareas.Refresh();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar las tareas: {ex.Message}");
+            }
+        }
+
+        private async void btnIngresarTareas_Click_1(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox1.Text) || string.IsNullOrEmpty(textBoxEmpleado.Text))
+            {
+                MessageBox.Show("Por favor, complete todos los campos requeridos.");
+                return;
+            }
+
+            try
+            {
+                // Crear un nuevo objeto Tarea con los datos ingresados
+                Tarea nuevaTarea = new Tarea
+                {
+                    Responsable = textBoxEmpleado.Text,
+                    FechaCreacion = dateTimePicker1.Value,
+                    Descripcion = textBox1.Text,
+                    Estado = ObtenerEstadoTarea(),
+                    Area = ObtenerAreaTarea()
+                };
+
+                string resultado = await tareaServicio.Create(nuevaTarea);
+
+                if (!string.IsNullOrEmpty(resultado))
+                {
+                    MessageBox.Show("Tarea agregada exitosamente.");
+                    CargarTareas(); // Recargar las tareas para reflejar la nueva tarea
+                }
+                else
+                {
+                    MessageBox.Show("Hubo un error al intentar agregar la tarea.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al agregar la tarea: {ex.Message}");
+            }
+        }
+
+       
     }
+
+
 }
+
+
+
+
